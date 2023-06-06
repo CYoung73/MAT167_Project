@@ -33,8 +33,8 @@ G = G - diag(diag(G));
 
 % measure relative error and run-time vs digits of precision
 iters = 25;
-errors = zeros(iters);
-run_times = zeros(iters);
+errors = zeros(iters, 1);
+run_times = zeros(iters, 1);
 for k=1:iters
     approx = pagerankpower(G, k);
     errors(k) = errors(k) + (norm(approx - x1) / norm(x1));
