@@ -51,10 +51,12 @@ G = sparse(i,j,1,n,n);
 %spy(G)
 
 % plot of digraph
-D = digraph(G);
-plot(D, 'NodeLabel', {}, 'NodeCData', x1, 'Layout', 'Force')
-title('Pages from University of Notre Dame Website')
-colobar
+included_x = find(x1 > 10^-5);
+D = digraph(G');
+H = subgraph(D, included_x);
+plot(H, 'NodeLabel', {}, 'NodeCData', x1(included_x), 'Layout', 'Force')
+title('Pages from University of Notre Dame Website with PageRank > 0.00001')
+colorbar
 
 % plot relative error vs digits of precision
 %{
