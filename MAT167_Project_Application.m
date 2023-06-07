@@ -1,6 +1,10 @@
 % load data
 data = importdata('Data/web-NotreDame.txt').data;
-load('PageRanks\NotreDame_True_PRs.mat');
+load('Results\NotreDame_True_PRs.mat');
+
+%%%%%%%%%%%%%%%%%%%
+%%% computation %%%
+%%%%%%%%%%%%%%%%%%%
 
 % dimension of G
 n = max(max(data)) + 1;
@@ -9,9 +13,6 @@ n = max(max(data)) + 1;
 i = data(:, 2) + 1;
 j = data(:, 1) + 1;
 G = sparse(i,j,1,n,n);
-
-% remove self-referential links
-G = G - diag(diag(G));
 
 % pagerank1
 %x1 = pagerank1(G);
@@ -32,18 +33,46 @@ G = G - diag(diag(G));
 %pr_power_6_time = timeit(f); 
 
 % measure relative error and run-time vs digits of precision
-iters = 25;
-errors = zeros(iters, 1);
-run_times = zeros(iters, 1);
-for k=1:iters
-    approx = pagerankpower(G, k);
-    errors(k) = errors(k) + (norm(approx - x1) / norm(x1));
-    f = @() pagerankpower(G, k);
-    run_times(k) = run_times(k) + timeit(f);
-end
+%iters = 25;
+%errors = zeros(iters, 1);
+%run_times = zeros(iters, 1);
+%for k=1:iters
+%    approx = pagerankpower(G, k);
+%    errors(k) = errors(k) + (norm(approx - x1) / norm(x1));
+%    f = @() pagerankpower(G, k);
+%    run_times(k) = run_times(k) + timeit(f);
+%end
+
+%%%%%%%%%%%%%
+%%% plots %%%
+%%%%%%%%%%%%%
+
+% plot of sparsity of G
+%spy(G)
+
+% plot of digraph
+D = digraph(G);
+plot(D, 'NodeLabel', {}, 'NodeCData', x1, 'Layout', 'Force')
+title('Pages from University of Notre Dame Website')
+colobar
 
 % plot relative error vs digits of precision
-%subplot(2, 1, 1);
-%plot(1:iters, errors);
-%subplot(2, 1, 2);
-%plot(10:iters, errors(10:iters))
+%{
+subplot(2, 1, 1);
+plot(1:iters, errors);
+title('Relative Error Between True Page Ranks and Approximate Page Ranks')
+xlabel('Digits of Precision')
+ylabel('Relative Error')
+subplot(2, 1, 2);
+plot(5:iters, errors(5:iters));
+xlabel('Digits of Precision')
+ylabel('Relative Error')
+
+% plot run-time vs digits of precision
+plot(1:iters, run_times)
+title('Run Time of Power Method vs Digits of Precision')
+xlabel('Digits of Precision')
+ylabel('Run Time (s)')
+%}
+
+
