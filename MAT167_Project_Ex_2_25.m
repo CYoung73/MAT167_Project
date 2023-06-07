@@ -4,8 +4,6 @@ j = [1 1 2 2 4 5 6];
 n = 6;
 
 G = sparse(i, j, 1, n, n);
-disp('G')
-disp(full(G))
 
 % (b)
 p = 0.85;
