@@ -1,4 +1,5 @@
 function x = pagerankpower(G,precision)
+% set hyperlink transition probability
 p = 0.85;
 % Eliminate any self-referential links
 G = G - diag(diag(G));
