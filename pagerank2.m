@@ -16,7 +16,12 @@ delta = (1-p)/n;
 A = p*G*D + delta;
 % solve (I-A)*x=e
 x = (I-A)\e;
-% Normalize so that sum(x) == 1.
-x = x/sum(x);
+% check for potential division by zero
+if all(x) %
+    % Normalize so that sum(x) == 1.
+    x = x/sum(x);
+else
+    % set all x to 1/n
+    x = ones(n, 1)/n;
 end
 
